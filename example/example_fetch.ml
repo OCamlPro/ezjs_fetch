@@ -1,15 +1,15 @@
-open Ezjs_fetch.Fetch
-open Js_of_ocaml
+open Ezjs_min
+open Ezjs_fetch_lwt
 
 class type test = object
-  method hash : Js.js_string Js.t Js.prop
+  method hash : js_string t prop
 end
 
 let () = Lwt.async @@ fun () ->
   Lwt.bind
     (fetch "https://api.dunscan.io/v4/head" to_js)
     (function
-      | Error s ->
-        Lwt.return @@ Firebug.console##log_2 (Js.string "Error") (Js.string s)
-      | Ok (r : test Js.t response) ->
+      | Error e->
+        Lwt.return @@ Firebug.console##log e
+      | Ok (r : test t response) ->
         Lwt.return @@ Firebug.console##log r.body##.hash)

@@ -20,6 +20,5 @@
  (depends
   (ocaml (>= 4.05))
   (dune (>= 2.0))
-  (js_of_ocaml (>= 3.6))
-  (js_of_ocaml-ppx (>= 3.6))
-  (ezjs_min (and (>= 0.1) (< 0.2)))))
+  (ezjs_min (>= 0.2)))
+ (depopts lwt))
