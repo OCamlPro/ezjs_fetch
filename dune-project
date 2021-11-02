@@ -1,4 +1,4 @@
-(lang dune 2.0)
+(lang dune 2.9)
 
 (name ezjs_fetch)
 
@@ -17,8 +17,5 @@
  (name ezjs_fetch)
  (synopsis "Bindings for Fetch")
  (description "Bindings for Fetch")
- (depends
-  (ocaml (>= 4.05))
-  (dune (>= 2.0))
-  (ezjs_min (>= 0.2)))
+ (depends (ezjs_min (>= 0.2)))
  (depopts lwt))

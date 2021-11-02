@@ -117,9 +117,7 @@ let request_js : (js_string t -> request_init t optdef -> request t) constr =
 let header_js : headers t constr =
   Unsafe.variable "Headers"
 
-let global_scope : global_scope t ref = ref (Unsafe.variable "window")
-let init_worker () = global_scope := Unsafe.variable "self"
-
+let global_scope : global_scope t = Unsafe.variable "self"
 
 let make_headers l =
   let h = new%js header_js in
@@ -186,9 +184,9 @@ let fetch_base ?cache ?credentials ?headers ?integrity ?meth ?mode ?redirect ?re
     ?referrerPolicy ?keepalive url =
   let options = fetch_init ?cache ?credentials ?headers ?integrity ?meth ?mode ?redirect
       ?referrer ?body ?referrerPolicy ?keepalive () in
-  !global_scope##fetch (string url) options
+  global_scope##fetch (string url) options
 
-let fetch_request_base r = !global_scope##fetch_request r
+let fetch_request_base r = global_scope##fetch_request r
 
 type 'a response = {
   headers : (string * string) list;
