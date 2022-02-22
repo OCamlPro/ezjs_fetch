@@ -20,7 +20,7 @@ class type ['a] array_from = object
 end
 
 let array_from (it : 'a iterator t) =
-  let arr : 'a array_from t = Unsafe.variable "Array" in
+  let arr : 'a array_from t = Unsafe.pure_js_expr "Array" in
   arr##from it
 
 class type headers = object
@@ -113,11 +113,11 @@ class type global_scope = object
 end
 
 let request_js : (js_string t -> request_init t optdef -> request t) constr =
-  Unsafe.variable "Request"
+  Unsafe.pure_js_expr "Request"
 let header_js : headers t constr =
-  Unsafe.variable "Headers"
+  Unsafe.pure_js_expr "Headers"
 
-let global_scope : global_scope t = Unsafe.variable "self"
+let global_scope : global_scope t = Unsafe.pure_js_expr "self"
 
 let make_headers l =
   let h = new%js header_js in
