@@ -1,3 +1,4 @@
+module Stream = Stream
 open Ezjs_min
 
 let optdef f = function
@@ -38,7 +39,7 @@ end
 type 'a promise = 'a Promise.promise t
 
 class type body = object
-  method body : File.file_any readonly_prop
+  method body : Stream.rstream t readonly_prop
   method bodyUsed : bool t readonly_prop
   method arrayBuffer : Typed_array.arrayBuffer t opt promise meth
   method blob : File.blob t opt promise meth
@@ -63,17 +64,11 @@ class type request_init = object
   method body_urlparam : headers t optdef prop
 end
 
-class type abort_signal = object
-  inherit Dom_html.eventTarget
-  method aborted : bool t readonly_prop
-  method abort : Dom_html.event t prop
-end
-
 class type fetch_init = object
   inherit request_init
   method referrerPolicy : js_string t optdef readonly_prop
   method keepalive : bool t optdef readonly_prop
-  method signal : abort_signal t optdef readonly_prop
+  method signal : Stream.abort_signal t optdef readonly_prop
 end
 
 class type request = object
@@ -219,6 +214,12 @@ let to_js : 'a t body_translate = fun cb b ->
   catch (function Error e -> cb @@ Error e | Ok x -> cb @@ Ok (Unsafe.coerce x)) b##json
 let to_text : string body_translate = fun cb b ->
   catch (function Error e -> cb @@ Error e | Ok x -> cb @@ Ok (to_string x)) b##text
+
+let to_stream fold acc : 'a body_translate = fun cb b ->
+  Stream.read ~source:(`stream (b##.body, None)) ~fold acc cb
+
+let to_str_stream fold =
+  to_stream (fun acc a -> fold acc (Typed_array.String.of_uint8Array a))
 
 let to_response (tr : 'a body_translate) cb (r :response_js t) =
   tr (function

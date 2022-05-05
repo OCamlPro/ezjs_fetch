@@ -1,6 +1,6 @@
 (library
  (public_name ezjs_fetch)
- (modules ezjs_fetch)
+ (modules stream ezjs_fetch)
  (preprocess (pps js_of_ocaml-ppx))
  (libraries ezjs_min)
  (modes byte))
