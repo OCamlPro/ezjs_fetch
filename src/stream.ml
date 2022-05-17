@@ -108,7 +108,14 @@ let read ~source ~fold acc cb =
     | Error e -> cb (Error e)
     | Ok v ->
       match to_bool v##.done_, Optdef.to_option v##.value with
-      | true, _ -> cb (Ok acc)
+      | true, None -> cb (Ok acc)
+      | true, Some v ->
+        begin match fold acc v with
+          | Ok acc -> cb (Ok acc)
+          | Error reason ->
+            Promise.jthen (reader##cancel (optdef string reason))
+              (fun x -> cb (Ok acc))
+        end
       | false, Some v ->
         begin match fold acc v with
           | Ok acc -> aux acc
