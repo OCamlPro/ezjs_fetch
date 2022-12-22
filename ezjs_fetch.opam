@@ -4,12 +4,12 @@ synopsis: "Bindings for Fetch"
 description: "Bindings for Fetch"
 maintainer: ["OCamlPro <contact@ocamlpro.com>"]
 authors: ["OCamlPro <contact@ocamlpro.com>"]
-license: "LGPL-2.1"
+license: "LGPL-2.1-or-later"
 homepage: "https://github.com/ocamlpro/ezjs_fetch"
 bug-reports: "https://github.com/ocamlpro/ezjs_fetch/issues"
 depends: [
   "dune" {>= "2.9"}
-  "ezjs_min" {>= "0.2"}
+  "ezjs_min" {>= "0.3"}
   "odoc" {with-doc}
 ]
 depopts: ["lwt"]

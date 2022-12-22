@@ -2,7 +2,7 @@
 
 (name ezjs_fetch)
 
-(license LGPL-2.1)
+(license LGPL-2.1-or-later)
 
 (authors "OCamlPro <contact@ocamlpro.com>")
 
@@ -17,5 +17,5 @@
  (name ezjs_fetch)
  (synopsis "Bindings for Fetch")
  (description "Bindings for Fetch")
- (depends (ezjs_min (>= 0.2)))
+ (depends (ezjs_min (>= 0.3)))
  (depopts lwt))
